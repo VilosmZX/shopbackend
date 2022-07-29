@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1-1aib(y@!@fsaf7bvf^r2$vcx65-mhhtsrxg*2eppc!@*mr+7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['https://shopwebbackend1.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['https://shopwebbackend1.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -169,6 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     'https://tarkishop.netlify.app',
+    'http://localhost:3000'
 ]
 
 MEDIA_URL = '/media/'
