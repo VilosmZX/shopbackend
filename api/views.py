@@ -7,11 +7,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .serializers import MenuSerializer, Menu
+from .serializers import MenuSerializer, Menu, NewsSerializer, News
 from rest_framework import status
 import pyrebase
 from requests.utils import requote_uri
 
+from api import serializers
 
 config = {
     'apiKey': "AIzaSyBAMLQ1dz5oblsp0fRhimciOBC6HY_ES84",
@@ -70,3 +71,18 @@ def addMenu(request):
     else:
         print('error', menu.errors)
         return Response(menu.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getNews(request):
+    news = News.objects.all()
+    serializer = NewsSerializer(news, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addNews(request):
+    serializer = NewsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
