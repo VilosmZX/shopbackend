@@ -8,7 +8,7 @@ class Menu(models.Model):
     title = models.CharField(max_length=200)
     price = models.FloatField()
     image = models.CharField(unique=True, max_length=300)
-
+    token = models.CharField(max_length=200)
     
     def __str__(self):
         return self.title 
