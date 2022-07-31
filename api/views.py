@@ -25,6 +25,9 @@ config = {
     'databaseURL': '',
 }
 
+firebase = pyrebase.initialize_app(config)
+storage = firebase.storage()
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -54,17 +57,15 @@ def getMenu(request):
 
 @api_view(['POST'])
 def addMenu(request): 
-    firebase = pyrebase.initialize_app(config)
     generated_id = uuid4()
     image_name = f'image/food_{request.data["title"]}_{generated_id}'
-    storage = firebase.storage()
     data = storage.child(image_name).put(request.data['image'])
     image_url = storage.child(image_name).get_url(data['downloadTokens'])
     image_url = requote_uri(image_url)
-    menu = MenuSerializer(data=request.data)
     request.data['image'] = image_url
+    request.data['token'] = data['downloadTokens']
+    menu = MenuSerializer(data=request.data)
     if menu.is_valid():
-        
         menu.validated_data['id'] = generated_id
         obj = menu.save()
         return Response(menu.data, status=status.HTTP_201_CREATED)
@@ -86,3 +87,14 @@ def addNews(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def deleteFood(request, id):
+    try:
+        instance = Menu.objects.get(id=id)
+        image_name = f'image/food_{instance.title}_{instance.id}'
+        storage.delete(image_name, instance.token)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)

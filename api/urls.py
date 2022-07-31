@@ -10,5 +10,6 @@ urlpatterns = [
     path('menus/', views.getMenu, name = 'menu'),
     path('add-menu/', views.addMenu, name = 'addmenu'),
     path('news/', views.getNews, name='news'),
-    path('add-news/', views.addNews, name = 'addnews')
+    path('add-news/', views.addNews, name = 'addnews'),
+    path('delete-menu/<str:id>', views.deleteFood, name = 'deleteFood')
 ] 
