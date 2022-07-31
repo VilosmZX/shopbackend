@@ -88,7 +88,7 @@ def addNews(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])
+@api_view(['DELETE', 'GET'])
 def deleteFood(request, id):
     try:
         instance = Menu.objects.get(id=id)
