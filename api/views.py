@@ -96,5 +96,6 @@ def deleteFood(request, id):
         storage.delete(image_name, instance.token)
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    except:
+    except Exception as e:
+        print(e)
         return Response(status=status.HTTP_400_BAD_REQUEST)
