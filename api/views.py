@@ -14,16 +14,7 @@ from requests.utils import requote_uri
 
 from api import serializers
 
-config = {
-    'apiKey': "AIzaSyBAMLQ1dz5oblsp0fRhimciOBC6HY_ES84",
-    'authDomain': "myweb-59a0a.firebaseapp.com",
-    'projectId': "myweb-59a0a",
-    'storageBucket': "myweb-59a0a.appspot.com",
-    'messagingSenderId': "324236950024",
-    'appId': "1:324236950024:web:8ca9dd3b7872427f21afbd",
-    'measurementId': "G-3F334QY1NB",
-    'databaseURL': '',
-}
+
 
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
